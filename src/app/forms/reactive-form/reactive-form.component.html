@@ -1,0 +1,88 @@
+<div class="container-fluid">
+  <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="username">Username</label>
+      <input type="text" formControlName="username" />
+      <div
+        *ngIf="
+          formGroup.get('username').invalid && formGroup.get('username').dirty
+        "
+      >
+        <span *ngIf="formGroup.get('username').errors['required']"
+          >Username is required</span
+        >
+        <span *ngIf="formGroup.get('username').errors['minlength']"
+          >Username min length should be 4</span
+        >
+        <span *ngIf="formGroup.get('username').errors['maxlength']"
+          >Username length should not exceed 15</span
+        >
+      </div>
+    </div>
+    <button type="button" class="btn btn-secondary" (click)="suggestUsername()">
+      Suggest an username
+    </button>
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input type="text" formControlName="email" />
+      <div
+        *ngIf="formGroup.get('email').invalid && formGroup.get('email').dirty"
+      >
+        <span *ngIf="formGroup.get('email').errors['required']"
+          >Email is required</span
+        >
+        <span *ngIf="formGroup.get('email').errors['email']"
+          >Email is invalid</span
+        >
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="secret">Select your secret question</label>
+      <select name="secret" id="secret" formControlName="secret">
+        <option value="fPet">Your first pet?</option>
+        <option value="fWord">Your first word?</option>
+      </select>
+      <div
+        *ngIf="formGroup.get('secret').invalid && formGroup.get('secret').dirty"
+      >
+        <span *ngIf="formGroup.get('secret').errors['required']"
+          >Must choose one question</span
+        >
+      </div>
+    </div>
+    <div class="form-group">
+      <input type="text" formControlName="answer" />
+      <div
+        *ngIf="formGroup.get('answer').invalid && formGroup.get('answer').dirty"
+      >
+        <span *ngIf="formGroup.get('answer').errors['required']"
+          >Answer is required</span
+        >
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="gender">Gender</label>
+      <div *ngFor="let gender of genders">
+        <div formGroupName="genderDetails">
+            <input type="radio" formControlName="gender" [value]="gender" />{{
+                gender
+              }}
+            </div>
+            <!-- <div
+              *ngIf="formGroup.get('genderDetails.gender').invalid && formGroup.get('genderDetails.gender').dirty"
+            >
+              <span *ngIf="formGroup.get('genderDetails.gender').errors['required']"
+                >Gender is required</span
+              >
+            </div> -->
+        </div>
+    </div>
+    <div class="form-group" formArrayName="hobbies">
+      <button type="button" (click)="onAddHobby()">Add Hobby</button>
+      <div *ngFor="let hob of Hobbies; let i = index">
+        Hobby {{i}} <input type="text" class="form-control" [formControlName]="i">
+      </div>
+    </div>
+    <button class="btn btn-success" type="submit">Submit</button>
+  </form>
+</div>

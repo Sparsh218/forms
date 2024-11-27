@@ -1,0 +1,69 @@
+<div class="container-fluid">
+  <form (ngSubmit)="onSubmitForm(form)" #form="ngForm">
+    <div class="form-group">
+      <label for="username">Username</label>
+      <input
+        type="text"
+        ngModel
+        name="username"
+        required
+        #username="ngModel"
+        [minlength]="4"
+        [maxlength]="15"
+      />
+      <div *ngIf="username.invalid && username.dirty">
+        <span *ngIf="username.errors['required']">Username is required</span>
+        <span *ngIf="username.errors['minlength']"
+          >Username min length should be 4</span
+        >
+        <span *ngIf="username.errors['maxlength']"
+          >Username length should not exceed 15</span
+        >
+      </div>
+    </div>
+    <button class="btn btn-secondary" type="button" (click)="suggestUsername()">
+      Suggest an username
+    </button>
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input type="text" ngModel name="email" required email #email="ngModel" />
+      <div *ngIf="email.invalid && email.dirty">
+        <span *ngIf="email.errors['required']">Email is required</span>
+        <span *ngIf="email.errors['email']">Email is invalid</span>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="secret">Select your secret question</label>
+      <select name="secret" id="secret" name="secret" ngModel required #secret="ngModel">
+        <option value="fPet">Your first pet?</option>
+        <option value="fWord">Your first word?</option>
+      </select>
+    </div>
+    <div *ngIf="secret.invalid && secret.dirty">
+        <span *ngIf="secret.errors['required']">Must choose one question</span>
+      </div>
+    <div class="form-group">
+      <input type="text" name="answer" [(ngModel)]="secretAnswer" required #answer="ngModel"/>
+      <div *ngIf="answer.invalid && answer.dirty">
+        <span *ngIf="answer.errors['required']">Answer is required</span>
+      </div>
+    </div>
+    <div class="form-group">
+        <label for="gender">Gender</label>
+        <div ngModelGroup="genderData" #genderData="ngModelGroup">
+            <div *ngFor="let gender of genders">
+                <input type="radio" name="gender" ngModel [value]="gender"/>{{gender}}
+            </div>
+        </div>
+    </div>
+    <button
+      class="btn btn-success"
+      [disabled]="!(form.valid && form.dirty)"
+      type="submit"
+    >
+      Submit
+    </button>
+  </form>
+  <hr>
+  <p *ngIf="answer.valid">The answer is {{secretAnswer | filter | async }}</p>
+</div>

@@ -1,0 +1,12 @@
+form-group, label, input, button {
+    padding: 5px;
+    margin: 5px;
+}
+
+/* input.ng-invalid {
+    border: 1px solid red;
+} */
+
+span {
+    color: red;
+}
